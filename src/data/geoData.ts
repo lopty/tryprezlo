@@ -7,8 +7,9 @@ export interface CountryInfo {
   description: string;
   majorHubs: string[];
   regulatoryBodies: string[];
+  locale: string;
+  approach: string;
 }
-
 export interface IndustryInfo {
   id: string;
   name: string;
@@ -16,50 +17,24 @@ export interface IndustryInfo {
   description: string;
   targetBuyer: string;
   keyCompliance: string;
+  evidence: string[];
+  question: string;
+  guide: string;
 }
-
-export interface GeoSegment {
-  slug: string;
-  countryId: string;
-  industryId: string;
-  title: string;
-  headline: string;
-  subheadline: string;
-  localizedSearchQueries: string[];
-  whyTraditionalSeoFails: string[];
-  shareOfModelGap: {
-    topCompetitorShare: number;
-    unoptimizedBrandShare: number;
-    potentialWithPrezlo: number;
-    averageAuditScore: number;
-  };
-  strategyPhases: {
-    phase: string;
-    title: string;
-    description: string;
-  }[];
-  caseProof: {
-    metric: string;
-    label: string;
-    clientType: string;
-    quote: string;
-  };
-  faqs: {
-    question: string;
-    answer: string;
-  }[];
-}
-
 export const COUNTRIES: CountryInfo[] = [
   {
     id: "uae",
     name: "United Arab Emirates",
     code: "AE",
     flag: "🇦🇪",
-    region: "Middle East / GCC",
-    description: "Dubai, Abu Dhabi, and the wider UAE market represent the world's most competitive landscape for luxury real estate, private wealth, healthcare tourism, and corporate advisory.",
-    majorHubs: ["Dubai Marina & Downtown", "DIFC & Business Bay", "Abu Dhabi Global Market (ADGM)", "Palm Jumeirah", "Sharjah Media City"],
-    regulatoryBodies: ["RERA / Dubai Land Department", "Dubai Health Authority (DHA)", "DIFC Courts", "ADGM Financial Services Regulatory Authority (FSRA)"]
+    region: "Middle East",
+    locale: "en-AE",
+    majorHubs: ["Dubai", "Abu Dhabi", "Sharjah"],
+    regulatoryBodies: [],
+    description:
+      "Plan around the emirate and service area you actually serve. A Dubai example should not imply identical availability throughout the UAE.",
+    approach:
+      "Keep Arabic and English information consistent where both are offered. Explain the difference between serving residents, visiting customers and overseas buyers, and confirm who handles each enquiry.",
   },
   {
     id: "usa",
@@ -67,9 +42,13 @@ export const COUNTRIES: CountryInfo[] = [
     code: "US",
     flag: "🇺🇸",
     region: "North America",
-    description: "The United States is the primary testing ground for OpenAI, Anthropic, and Google search integrations, where executive decision-makers use generative AI daily for vendor discovery.",
-    majorHubs: ["New York City", "San Francisco / Silicon Valley", "Miami / South Florida", "Austin", "Chicago"],
-    regulatoryBodies: ["Securities and Exchange Commission (SEC)", "State Bar Associations", "FDA / HIPAA", "Federal Trade Commission (FTC)"]
+    locale: "en-US",
+    majorHubs: ["New York", "Austin", "Chicago"],
+    regulatoryBodies: [],
+    description:
+      "A national category can hide very different state and city requirements. Start with a defined service area rather than treating the United States as one local market.",
+    approach:
+      "Separate nationwide availability from state-specific delivery. Publish the exact areas you serve and avoid implying professional authorisation in every state. Ask the responsible team to approve jurisdiction-related claims.",
   },
   {
     id: "uk",
@@ -77,9 +56,13 @@ export const COUNTRIES: CountryInfo[] = [
     code: "GB",
     flag: "🇬🇧",
     region: "Europe",
-    description: "London and regional UK business hubs rely heavily on Perplexity and ChatGPT for commercial litigation, wealth advisory, luxury real estate, and enterprise technology procurement.",
-    majorHubs: ["City of London & Canary Wharf", "Mayfair & Knightsbridge", "Manchester Tech Hub", "Edinburgh Financial District"],
-    regulatoryBodies: ["Financial Conduct Authority (FCA)", "Solicitors Regulation Authority (SRA)", "Care Quality Commission (CQC)", "RICS"]
+    locale: "en-GB",
+    majorHubs: ["London", "Manchester", "Edinburgh"],
+    regulatoryBodies: [],
+    description:
+      "Distinguish a UK-wide offer from one delivered in a particular city or nation. A London example does not demonstrate coverage across the whole United Kingdom.",
+    approach:
+      "Use terminology your local buyers use and explain where the service is available. Keep location, currency and support information consistent. Do not extend a professional service claim from one jurisdiction to another without checking its scope.",
   },
   {
     id: "canada",
@@ -87,9 +70,13 @@ export const COUNTRIES: CountryInfo[] = [
     code: "CA",
     flag: "🇨🇦",
     region: "North America",
-    description: "Canada's rapidly growing tech corridors in Toronto, Vancouver, and Montreal require localized AI visibility to capture domestic enterprise contracts and cross-border US investments.",
-    majorHubs: ["Toronto Financial District", "Vancouver Tech Corridor", "Montreal AI Ecosystem", "Calgary Energy Center"],
-    regulatoryBodies: ["OSFI", "Canadian Bar Association", "Health Canada", "Real Estate Council of Ontario (RECO)"]
+    locale: "en-CA",
+    majorHubs: ["Toronto", "Vancouver", "Montreal"],
+    regulatoryBodies: [],
+    description:
+      "Define coverage by province and city when that affects delivery. Distinguish Canadian pricing, support and availability from a cross-border US offer.",
+    approach:
+      "Where English and French pages are offered, maintain the same approved facts in both. Check provincial service scope and make the relevant currency explicit. A translated page needs actual language review, not only a language tag.",
   },
   {
     id: "australia",
@@ -97,262 +84,279 @@ export const COUNTRIES: CountryInfo[] = [
     code: "AU",
     flag: "🇦🇺",
     region: "Asia-Pacific",
-    description: "Australian enterprises in Sydney, Melbourne, and Brisbane face rapid adoption of AI search among consumers evaluating high-ticket advisory and property transactions.",
-    majorHubs: ["Sydney CBD & Barangaroo", "Melbourne Tech & Finance", "Brisbane Commercial Hub", "Perth Resource Advisory"],
-    regulatoryBodies: ["Australian Securities and Investments Commission (ASIC)", "AHPRA", "Law Council of Australia", "REIA"]
+    locale: "en-AU",
+    majorHubs: ["Sydney", "Melbourne", "Brisbane"],
+    regulatoryBodies: [],
+    description:
+      "Make state, city and remote-service boundaries explicit. Support hours and delivery details can matter when customers and teams work across time zones.",
+    approach:
+      "Explain which work is local and which can be delivered remotely. Use Australian terminology, state the relevant currency and describe actual availability rather than implying a physical presence in every city.",
   },
   {
     id: "singapore",
     name: "Singapore",
     code: "SG",
     flag: "🇸🇬",
-    region: "Southeast Asia / APAC",
-    description: "Singapore serves as the financial and tech capital of Southeast Asia, where multinational procurement leaders use generative AI models to vet regional headquarters and partners.",
-    majorHubs: ["Marina Bay Financial Centre", "Raffles Place", "Tanjong Pagar", "One-North Tech Park"],
-    regulatoryBodies: ["Monetary Authority of Singapore (MAS)", "Singapore Medical Council (SMC)", "Law Society of Singapore", "Council for Estate Agencies (CEA)"]
-  }
+    region: "Southeast Asia",
+    locale: "en-SG",
+    majorHubs: ["Singapore"],
+    regulatoryBodies: [],
+    description:
+      "A Singapore-based buyer may be evaluating a local service or a regional APAC supplier. Treat those as different decisions and clarify the scope of your offer.",
+    approach:
+      "Separate Singapore delivery from cross-border coverage. Explain support hours, contracting scope and languages you genuinely support. An APAC label should not substitute for a specific account of where the service works.",
+  },
+  {
+    id: "global",
+    name: "Global markets",
+    code: "GLOBAL",
+    flag: "◎",
+    region: "Global",
+    locale: "en",
+    majorHubs: ["your target market"],
+    regulatoryBodies: [],
+    description:
+      "Start with a global offer only where it genuinely fits. Identify exclusions, supported languages and delivery constraints before expanding a local strategy internationally.",
+    approach:
+      "Keep one approved source for product and business facts. Localize examples and practical delivery details when needed. Consolidate regional pages that do not give a buyer meaningful additional information.",
+  },
 ];
-
 export const INDUSTRIES: IndustryInfo[] = [
   {
     id: "real-estate-agency",
-    name: "Real Estate & Luxury Property Agencies",
+    name: "Real estate agencies",
     shortName: "Real Estate",
-    description: "High-end residential brokerages, commercial leasing advisory, and off-plan investment agencies targeting local and international high-net-worth buyers.",
-    targetBuyer: "High-net-worth property investors, family offices, and commercial tenants searching for trusted brokerage representation.",
-    keyCompliance: "Property licensing, verified escrow agreements, and localized neighborhood authority."
+    description:
+      "Help property buyers and sellers assess service areas, property types and the people responsible for an enquiry.",
+    targetBuyer:
+      "A buyer comparing agencies for a specific property type and location.",
+    keyCompliance:
+      "Publish only verified licensing and service-scope information.",
+    evidence: [
+      "Actual neighbourhood and property-type coverage",
+      "Named team members and responsibilities",
+      "Current listings or permissioned examples",
+      "An explanation of the buying or selling process",
+      "Clear contact and viewing arrangements",
+    ],
+    question:
+      "Which real estate agencies in {city} can help with a residential purchase?",
+    guide: "brand-verification-for-ai",
   },
   {
     id: "healthcare-clinics",
-    name: "Healthcare & Specialized Medical Clinics",
+    name: "Healthcare clinics",
     shortName: "Healthcare",
-    description: "Cosmetic surgery centers, specialized dental clinics, private orthopedic hospitals, and fertility institutes operating under strict YMYL standards.",
-    targetBuyer: "Patients and medical tourists seeking accredited specialists with proven clinical credentials and peer-reviewed safety records.",
-    keyCompliance: "Medical council licensing, board certifications, and verified clinical accreditations."
+    description:
+      "Make clinic identity, appointment information and approved practitioner details easy to understand. Clinical claims require qualified review.",
+    targetBuyer:
+      "Someone checking service availability and how to book an appointment.",
+    keyCompliance:
+      "Use qualified review for clinical statements and check local advertising requirements.",
+    evidence: [
+      "Accurate clinic location and appointment route",
+      "Approved practitioner biographies",
+      "Links to appropriate public credential records",
+      "Clear service scope and exclusions",
+      "A dated review process for health content",
+    ],
+    question:
+      "Which clinics in {city} offer appointment information for this service?",
+    guide: "healthcare-ymyl-in-generative-search",
   },
   {
     id: "legal-law-firms",
-    name: "Legal & Corporate Law Firms",
+    name: "Corporate law firms",
     shortName: "Corporate Law",
-    description: "Commercial litigation practices, M&A advisors, cross-border corporate structuring, and specialized intellectual property attorneys.",
-    targetBuyer: "General counsels, managing directors, and entrepreneurs seeking seasoned legal representation with recognized jurisdiction authority.",
-    keyCompliance: "Bar association admission, regulatory compliance, and verified jurisdictional competence."
+    description:
+      "Help businesses understand practice areas, jurisdictional scope and how an initial enquiry is handled.",
+    targetBuyer:
+      "A business identifying legal advisers with the relevant practice and jurisdiction.",
+    keyCompliance:
+      "Confirm professional and advertising claims with the responsible legal team.",
+    evidence: [
+      "Named practitioners and approved biographies",
+      "Actual jurisdictions and practice areas",
+      "A clear explanation of the engagement process",
+      "Permissioned examples without confidential details",
+      "An accessible route for initial enquiries",
+    ],
+    question:
+      "Which law firms in {city} explain their corporate advisory services?",
+    guide: "brand-verification-for-ai",
   },
   {
     id: "financial-wealth-management",
-    name: "Financial Advisory & Wealth Management",
+    name: "Financial advisory firms",
     shortName: "Wealth Advisory",
-    description: "Independent asset managers, family office advisors, tax structuring consultants, and fiduciary wealth planners.",
-    targetBuyer: "Accredited investors, high-income professionals, and business owners looking for fiduciary investment stewardship.",
-    keyCompliance: "Securities licensing, fiduciary registration, and verified third-party audit credentials."
+    description:
+      "Clarify who the service is for, the advisory scope and how potential clients can assess suitability before an enquiry.",
+    targetBuyer:
+      "A prospective client assessing the scope and fit of an advisory firm.",
+    keyCompliance:
+      "Use approved disclosures and substantiated credentials; do not imply investment outcomes.",
+    evidence: [
+      "Approved service and eligibility descriptions",
+      "Responsible advisers and verifiable credentials",
+      "A clear explanation of fees or the fee-discussion process",
+      "Relevant risk and scope disclosures",
+      "A contact route that avoids collecting sensitive data unnecessarily",
+    ],
+    question:
+      "Which financial advisory firms in {city} explain their services and fees?",
+    guide: "brand-verification-for-ai",
   },
   {
     id: "b2b-saas-tech",
-    name: "B2B SaaS & Enterprise Technology",
+    name: "B2B SaaS companies",
     shortName: "B2B SaaS",
-    description: "Cloud software vendors, cybersecurity providers, AI infrastructure tools, and enterprise automation platforms.",
-    targetBuyer: "CTOs, CIOs, and procurement directors evaluating complex software stacks through generative search engines.",
-    keyCompliance: "SOC2 Type II, ISO 27001, public API documentation, and verified third-party benchmarks."
+    description:
+      "Help software buyers compare the product against their actual workflow, integration needs and operating constraints.",
+    targetBuyer:
+      "A software buyer evaluating a category, integration or specific use case.",
+    keyCompliance:
+      "Publish accurate product and security information with its scope.",
+    evidence: [
+      "Documented use cases and supported workflows",
+      "Integration and export documentation",
+      "Plan limits and billing context",
+      "Approved security and support information",
+      "A useful trial or evaluation route",
+    ],
+    question: "Which B2B software providers support teams operating in {city}?",
+    guide: "b2b-saas-discovery-in-chatgpt",
   },
   {
     id: "luxury-hospitality",
-    name: "Luxury Hospitality & High-End Concierge",
+    name: "Hospitality businesses",
     shortName: "Luxury Hospitality",
-    description: "Boutique five-star hotels, luxury private aviation brokers, VIP travel concierges, and premier event venues.",
-    targetBuyer: "Ultra-high-net-worth travelers and corporate event organizers requesting personalized premium experiences.",
-    keyCompliance: "Industry hospitality ratings, certified concierge accreditation, and verified guest sentiment."
-  }
+    description:
+      "Give travellers and event organisers enough detail to assess location, facilities, availability and practical arrangements.",
+    targetBuyer:
+      "A traveller or organiser comparing a stay or event against specific needs.",
+    keyCompliance:
+      "Keep ratings, facilities and availability claims accurate and attributable.",
+    evidence: [
+      "Current facilities and location information",
+      "Original or authorised property photographs",
+      "Specific accessibility and guest-policy details",
+      "Booking, cancellation and enquiry routes",
+      "Authentic reviews with clear provenance",
+    ],
+    question:
+      "Which hotels in {city} explain their facilities for a small business event?",
+    guide: "converting-ai-search-referrals",
+  },
 ];
-
-// Helper to generate a detailed segment for any country + industry
-export function getGeoSegment(countryId: string, industryId: string): GeoSegment {
-  const country = COUNTRIES.find((c) => c.id === countryId) || COUNTRIES[0];
-  const industry = INDUSTRIES.find((i) => i.id === industryId) || INDUSTRIES[0];
-
-  const localizedQueries: Record<string, Record<string, string[]>> = {
-    uae: {
-      "real-estate-agency": [
-        "Which real estate agency in Dubai specializes in luxury beachfront villas in Palm Jumeirah with RERA verified developer escrow?",
-        "Top licensed commercial real estate brokerages in DIFC Dubai for multinational corporate office leasing",
-        "Compare leading off-plan investment property advisors in Dubai for international European investors in 2026",
-        "Best property management agency in Abu Dhabi for high-net-worth residential portfolio owners"
-      ],
-      "healthcare-clinics": [
-        "Best accredited cosmetic surgery clinics in Dubai Healthcare City with board-certified DHA surgeons",
-        "Top dental implant centers in Dubai with 3D guided surgery and international specialist certifications",
-        "Leading private orthopedic hospital in Abu Dhabi for sports medicine and knee rehabilitation"
-      ],
-      "legal-law-firms": [
-        "Top corporate law firms in Dubai specializing in cross-border M&A and DIFC Court dispute resolution",
-        "Best commercial litigation attorneys in Abu Dhabi for government contract disputes and ADGM arbitration",
-        "Leading tech and intellectual property law firm in UAE for venture capital structuring"
-      ],
-      "financial-wealth-management": [
-        "Best independent wealth management firms in Dubai DIFC for family offices and GCC residency structuring",
-        "Top asset management advisors in Abu Dhabi licensed by FSRA with transparent fee models",
-        "Leading private wealth consultants in UAE for multi-currency international estate planning"
-      ],
-      "b2b-saas-tech": [
-        "Top enterprise cloud cybersecurity platforms in the UAE with local in-country data residency compliance",
-        "Best B2B fintech software providers in Dubai with UAE Central Bank regulatory sandbox integration",
-        "Leading enterprise ERP implementation consultants in Dubai for logistics and trade conglomerates"
-      ],
-      "luxury-hospitality": [
-        "Top private jet charter brokers in Dubai with verified Wyvern safety ratings and VIP concierge",
-        "Best luxury desert resorts in Abu Dhabi for high-profile private corporate retreats and galas",
-        "Premier VIP lifestyle concierge services in Dubai with direct yacht and fine dining access"
-      ]
-    },
-    usa: {
-      "real-estate-agency": [
-        "Top luxury real estate brokerages in Manhattan specializing in private penthouses and pre-war cooperatives",
-        "Best commercial real estate tenant advisory firms in San Francisco for tech headquarters leasing",
-        "Leading waterfront property advisors in Miami for private wealth family offices in 2026"
-      ],
-      "healthcare-clinics": [
-        "Top accredited regenerative medicine and orthopedic institutes in New York with board-certified physicians",
-        "Best fertility and IVF clinics in California with the highest verified live-birth success rates",
-        "Leading concierge medical practices in South Florida with 24/7 direct physician access"
-      ],
-      "legal-law-firms": [
-        "Top commercial litigation law firms in New York specializing in federal securities and antitrust disputes",
-        "Best venture capital and startup legal counsel in Silicon Valley for Series B cross-border financings",
-        "Leading corporate restructuring attorneys in Delaware and Chicago for Chapter 11 proceedings"
-      ],
-      "financial-wealth-management": [
-        "Best fee-only fiduciary wealth management firms in New York City for high-net-worth families with over 10M",
-        "Top independent registered investment advisors (RIAs) in California specializing in tech liquidity events",
-        "Leading private wealth and tax structuring consultancies in Austin and Miami"
-      ],
-      "b2b-saas-tech": [
-        "Top SOC2 Type II compliant B2B customer data platforms with native Snowflake integrations",
-        "Best enterprise AI governance software for healthcare and financial institutions in 2026",
-        "Leading cloud cost optimization platforms with multi-cloud AWS and Azure automated telemetry"
-      ],
-      "luxury-hospitality": [
-        "Top luxury private jet brokers in the United States with Argus Platinum safety certification",
-        "Best private buyout luxury resorts in Aspen and Napa Valley for corporate executive summits",
-        "Premier high-end corporate concierge agencies in Manhattan for international delegations"
-      ]
-    },
-    uk: {
-      "real-estate-agency": [
-        "Top prime central London real estate agencies specializing in Mayfair and Belgravia residential acquisitions",
-        "Best commercial property tenant advisory firms in the City of London for international financial institutions",
-        "Leading country estate buying agents in the Home Counties for private high-net-worth overseas clients"
-      ],
-      "healthcare-clinics": [
-        "Best private clinics on Harley Street London for complex cosmetic and reconstructive surgery",
-        "Top private cardiology hospitals in central London with GMC certified leading consultants",
-        "Leading private fertility clinics in the UK with the highest HFEA verified success statistics"
-      ],
-      "legal-law-firms": [
-        "Top commercial litigation solicitors in London for High Court disputes and international commercial arbitration",
-        "Best corporate boutique law firms in London for mid-market private equity acquisitions",
-        "Leading UK intellectual property and life sciences legal specialists for European cross-border patents"
-      ],
-      "financial-wealth-management": [
-        "Top independent wealth managers in London City and Mayfair authorized by the FCA with fiduciary mandates",
-        "Best wealth advisory firms in the UK for non-domiciled international individuals and cross-border tax planning",
-        "Leading private family office consultants in Edinburgh and London with discretionary portfolios over 20M"
-      ],
-      "b2b-saas-tech": [
-        "Top UK enterprise SaaS platforms for GDPR and UK Data Protection Act compliance automation",
-        "Best London fintech software providers for automated banking reconciliation and Open Banking APIs",
-        "Leading AI supply chain analytics software in the UK for manufacturing and retail enterprises"
-      ],
-      "luxury-hospitality": [
-        "Top private concierge agencies in London providing exclusive access to royal events and private clubs",
-        "Best luxury country house hotels in the Cotswolds and Scotland for private corporate retreats",
-        "Leading UK private jet charter brokers with direct Farnborough and Biggin Hill airport departures"
-      ]
-    }
-  };
-
-  const queries =
-    localizedQueries[country.id]?.[industry.id] || [
-      `Top ${industry.name} in ${country.name} recommended by ChatGPT and Perplexity`,
-      `Best licensed ${industry.shortName} firm in ${country.majorHubs[0]} with verified client reviews`,
-      `Compare leading ${industry.name} providers in ${country.name} for enterprise buyers in 2026`
-    ];
-
+const LOCAL_NOTES: Record<string, string[]> = {
+  uae: [
+    "Distinguish ready properties from off-plan services and specify the neighbourhoods covered. An overseas buyer may need a different explanation of the process from a resident arranging a viewing.",
+    "Separate resident appointment needs from visitor enquiries. State the clinic location, languages genuinely supported and booking route without making a treatment-outcome promise.",
+    "Explain the actual scope of UAE and cross-border work. Do not turn a general corporate-services page into a claim of legal authorisation for every local framework.",
+    "Separate local and international client eligibility in approved language. Explain how a prospective client can discuss scope and fees without publishing a promise of investment returns.",
+    "Show how regional teams can evaluate the product, including support hours and relevant language capabilities. Do not imply UAE data residency unless it is documented.",
+    "Differentiate stays, dining and events. Publish actual venue capacity and facilities, and explain which enquiries need confirmation from the property.",
+  ],
+  usa: [
+    "Define the state, city and neighbourhoods served. Separate a national property-content resource from an agency’s actual local representation.",
+    "Keep service-location information separate from general health education. Have the provider approve state-related availability and practitioner statements.",
+    "State the jurisdictions and practices the team actually handles. An article about national law is not evidence of local representation or admission.",
+    "Use approved eligibility and fee disclosures for the service area. A national marketing page must not imply that every prospect is eligible for advice.",
+    "Clarify US availability, billing and support coverage. Publish the integration constraints relevant to the use case rather than assuming a US address establishes product fit.",
+    "Explain location, venue facilities and travel arrangements. A guest planning a city stay needs different information from an organiser comparing event spaces.",
+  ],
+  uk: [
+    "Make city and neighbourhood coverage explicit. Distinguish sales, lettings and management rather than presenting them as interchangeable services.",
+    "Give the clinic’s actual location and appointment process. Do not imply that one provider operates throughout all UK nations.",
+    "Describe the relevant jurisdiction rather than treating every UK legal system as identical. Ask the firm to approve the public wording of practice scope.",
+    "Keep eligibility, fees and service boundaries clear. Distinguish educational financial content from the service the adviser is actually authorised to provide.",
+    "Explain UK billing, support and contracting details where applicable. Use real procurement questions to decide which product documentation needs improvement.",
+    "Differentiate leisure stays, corporate bookings and events. Make transport, facilities and policies useful to the specific booking decision.",
+  ],
+  canada: [
+    "Separate province-specific service information and cross-border enquiries. Use accurate currency and explain which local areas the agency actually covers.",
+    "State location and booking options clearly. Maintain equivalent approved information on French and English pages where both are provided.",
+    "Specify provinces and actual practice areas. Do not infer Canada-wide representation from one office or a national-looking website.",
+    "Separate client eligibility and service scope by the firm’s actual offer. Keep Canadian and US tax or investment discussions distinct and professionally reviewed.",
+    "Explain Canadian availability, currency and support. If French-language support is offered, distinguish a translated page from actual product and support coverage.",
+    "Make seasonal availability and practical travel information clear. Separate a property’s own location from broader destination advice.",
+  ],
+  australia: [
+    "Define state and suburb coverage. Explain which activities are delivered locally and whether remote consultation is available.",
+    "Give the clinic’s service area and appointment route. Confirm practitioner statements with the provider rather than assuming an online consultation applies everywhere.",
+    "Identify the firm’s actual state and practice scope. Make remote enquiries understandable without implying unrestricted representation.",
+    "Explain eligibility and service scope using approved wording. Avoid testimonials or examples that imply a guaranteed financial outcome.",
+    "State support coverage across relevant time zones. Clarify Australian billing and procurement information where those details differ from the global offer.",
+    "Explain the destination, facilities and travel arrangements. A city event booking and a remote leisure stay need different practical information.",
+  ],
+  singapore: [
+    "Distinguish local property services from overseas-property marketing. State who handles enquiries and which property types the team actually represents.",
+    "Separate local appointments from visitor enquiries. Use approved practitioner and clinic information and avoid claims about guaranteed outcomes.",
+    "Separate Singapore practice scope from regional advisory coordination. A regional network does not itself establish representation in every jurisdiction.",
+    "Use approved service descriptions and eligibility wording. Clarify whether the offer is for local or cross-border clients without implying blanket authorisation.",
+    "Distinguish Singapore coverage from a wider APAC offering. Explain languages, contracting and support actually available to the buyer.",
+    "Clarify location, facilities and event arrangements. Separate a Singapore property’s offer from regional itinerary or concierge services.",
+  ],
+  global: [
+    "Define countries and property types actually covered. Avoid a global brokerage claim if enquiries are ultimately referred to unrelated local providers.",
+    "Make location and booking eligibility explicit for every service. Do not imply international clinical availability from a global information page.",
+    "Explain how enquiries are allocated to qualified local counsel. Do not present a network as a single firm authorised in every jurisdiction.",
+    "State service exclusions and eligibility clearly. Global educational content must not imply that financial advice is offered everywhere.",
+    "Document supported regions, languages, formats and support hours. Distinguish product availability from local data residency or contractual commitments.",
+    "Explain the locations actually offered and who confirms the booking. Keep third-party availability separate from facilities the business directly controls.",
+  ],
+};
+export function getGeoSegment(countryId: string, industryId: string) {
+  const country = COUNTRIES.find((c) => c.id === countryId);
+  const industry = INDUSTRIES.find((i) => i.id === industryId);
+  if (!country || !industry) throw new Error("Unknown market or industry");
+  const idx = INDUSTRIES.indexOf(industry);
+  const place =
+    country.id === "global"
+      ? "global markets"
+      : ["uae", "usa", "uk"].includes(country.id)
+        ? "the " + country.name
+        : country.name;
   return {
-    slug: `geo/${country.id}/${industry.id}`,
-    countryId: country.id,
-    industryId: industry.id,
-    title: `${country.name} ${industry.name} AI Visibility & GEO Strategy`,
-    headline: `Ensure Your ${industry.shortName} Brand Is Recommended on ChatGPT and Perplexity in ${country.name}`,
-    subheadline: `When high-value clients across ${country.majorHubs[0]} and ${country.majorHubs[1] || country.majorHubs[0]} ask AI models for premier ${industry.shortName.toLowerCase()} solutions, Prezlo ensures your firm is cited at the top.`,
-    localizedSearchQueries: queries,
-    whyTraditionalSeoFails: [
-      `Traditional SEO targets single-keyword rankings on Google SERPs, whereas buyers in ${country.name} now prompt conversational models with complex, multi-variable constraints.`,
-      `Standard web crawlers do not verify regional regulatory credentials (${country.regulatoryBodies.join(", ")}), causing generative models to exclude unverified firms to avoid safety liability.`,
-      `Local directories with thin keyword profiles are stripped by neural rerankers during Perplexity and ChatGPT passage extraction.`,
-      `Competitors who invest in entity-level Schema.org and cross-source consensus capture up to 80% of synthesized recommendations while traditional firms lose high-intent inbound leads.`
+    slug: `${country.id}/${industry.id}`,
+    countryId,
+    industryId,
+    title: `${industry.shortName} AI Visibility in ${place}`,
+    headline: `AI visibility for ${industry.name.toLowerCase()} in ${place}`,
+    subheadline: `A practical planning guide for ${industry.name.toLowerCase()} serving ${place}. Measure relevant buyer questions, improve public information and review qualified enquiries.`,
+    localNote: LOCAL_NOTES[country.id][idx],
+    localizedSearchQueries: [
+      industry.question.replace("{city}", country.majorHubs[0]),
+      `How should I compare ${industry.name.toLowerCase()} serving ${country.majorHubs[0]}?`,
+      `What should I check before contacting a ${industry.shortName.toLowerCase()} provider in ${place}?`,
     ],
-    shareOfModelGap: {
-      topCompetitorShare: 68,
-      unoptimizedBrandShare: 12,
-      potentialWithPrezlo: 74,
-      averageAuditScore: 41
-    },
-    strategyPhases: [
-      {
-        phase: "Phase 1",
-        title: `Entity Mapping & ${country.regulatoryBodies[0]} Accreditation Anchoring`,
-        description: `Structure comprehensive JSON-LD entity data embedding official ${country.regulatoryBodies[0]} credentials, verified executive leadership, and explicit service taxonomies directly into machine-readable knowledge graphs.`
-      },
-      {
-        phase: "Phase 2",
-        title: `Regional Citation Velocity & Trade Authority Synthesis`,
-        description: `Secure verified co-citations across premier ${country.name} business journals, official trade registries, and high-trust industry analyses to establish algorithmic consensus.`
-      },
-      {
-        phase: "Phase 3",
-        title: "Perplexity & ChatGPT Retrieval Optimization",
-        description: `Align technical documentation, case studies, and transparent service tiers with the vector cross-encoders used by real-time search models during conversational queries.`
-      },
-      {
-        phase: "Phase 4",
-        title: "Automated Autonomous Probing & Hallucination Defense",
-        description: `Deploy Prezlo's 24/7 continuous probing engine across ChatGPT, Perplexity, Gemini, Claude, and Grok to monitor your Share of Model and resolve inaccurate claims instantly.`
-      }
-    ],
-    caseProof: {
-      metric: "+240% Inbound Citations",
-      label: `Verified AI recommendation growth in ${country.name} within 90 days`,
-      clientType: `Leading ${industry.shortName} Practice in ${country.majorHubs[0]}`,
-      quote: `Before using Prezlo, our competitors were cited in 8 out of 10 prompts when corporate clients asked ChatGPT for top ${industry.shortName.toLowerCase()} recommendations in ${country.majorHubs[0]}. Within 90 days of implementing Prezlo's entity architecture, we captured the dominant recommendation slot and generated seven direct high-value client engagements.`
-    },
     faqs: [
       {
-        question: `How does GEO help a ${industry.shortName} firm in ${country.name}?`,
-        answer: `GEO positions your business directly inside the answers generated by ChatGPT, Perplexity, and Google Gemini when high-intent prospective clients in ${country.name} ask for recommendations, generating pre-qualified inbound inquiries that convert at higher rates than traditional search ads.`
+        question: `Where should a ${industry.shortName.toLowerCase()} team in ${place} begin?`,
+        answer: `Start with the real service scope, a short set of buyer questions and a record of current answers. For this market: ${LOCAL_NOTES[country.id][idx]}`,
       },
       {
-        question: `Does Prezlo handle compliance with ${country.regulatoryBodies[0]}?`,
-        answer: `Yes. Prezlo specifically incorporates your official licensing and regulatory credentials from ${country.regulatoryBodies.join(" and ")} into structured data schemas that generative AI models recognize and prioritize.`
+        question: "Are the example prompts measured search demand?",
+        answer:
+          "No. They are planning examples to adapt and validate with your sales, support or customer research. They are not keyword-volume estimates or measured assistant results.",
       },
       {
-        question: `Can marketing agencies in ${country.name} white-label these services for clients?`,
-        answer: `Yes. Agencies across ${country.name} use Prezlo's agency partner features to provide automated AI Visibility Audits, monthly Share of Model reports, and continuous GEO retainers under their own agency brand.`
+        question: "Does this guide establish local regulatory compliance?",
+        answer: `No. ${industry.keyCompliance} This guide concerns marketing information and measurement, not professional, medical, financial or legal advice.`,
       },
       {
-        question: `How soon will our brand appear in AI search recommendations in ${country.name}?`,
-        answer: `For real-time search models like Perplexity and search-enabled ChatGPT, our clients typically observe initial citation improvements within 21 to 45 days after completing initial entity deployment and citation verification.`
+        question: "Does Prezlo guarantee recommendations or enquiries?",
+        answer:
+          "No. Answers vary by assistant, prompt and context. Track a consistent sample and review actual outcomes without promising a particular placement or performance uplift.",
       },
       {
-        question: `How can our team try Prezlo today?`,
-        answer: `You can initiate an instant AI visibility audit and start your free trial directly on http://prezlo.io/.`
-      }
-    ]
+        question: "How can I try Prezlo?",
+        answer:
+          "Visit prezlo.io for product access and current plan terms. The 14-day Pro trial requires a card; cancel before it ends to avoid a charge.",
+      },
+    ],
   };
 }
-
-// Generate all 36 combinations
-export const ALL_GEO_SEGMENTS: GeoSegment[] = [];
-COUNTRIES.forEach((country) => {
-  INDUSTRIES.forEach((industry) => {
-    ALL_GEO_SEGMENTS.push(getGeoSegment(country.id, industry.id));
-  });
-});
+export const ALL_GEO_SEGMENTS = COUNTRIES.flatMap((c) =>
+  INDUSTRIES.map((i) => getGeoSegment(c.id, i.id)),
+);

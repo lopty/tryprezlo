@@ -1,0 +1,482 @@
+# Render Static Site. Add the repository through a Blueprint or use these settings.
+# Existing Render services retain routing rules omitted from this file: remove any
+# old /* -> /index.html SPA fallback in the dashboard before deploying this build.
+services:
+  - type: web
+    name: tryprezlo
+    runtime: static
+    buildCommand: npm ci --include=dev && npm run typecheck && npm run build && npm run check:seo
+    staticPublishPath: ./dist
+    domains:
+      - tryprezlo.com
+    envVars:
+      - key: NODE_VERSION
+        value: 24.14.1
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=86400
+      - path: /404.html
+        name: X-Robots-Tag
+        value: noindex
+    # Deliberately no catch-all SPA rewrite. Unknown pages must return 404.
+    routes:
+      - type: redirect
+        source: /home
+        destination: /
+      # Generated clean-route mappings: run npm run config:render after route changes.
+      - type: redirect
+        source: /platform/
+        destination: /platform
+      - type: rewrite
+        source: /platform
+        destination: /platform/index.html
+      - type: redirect
+        source: /for-agencies/
+        destination: /for-agencies
+      - type: rewrite
+        source: /for-agencies
+        destination: /for-agencies/index.html
+      - type: redirect
+        source: /for-brands/
+        destination: /for-brands
+      - type: rewrite
+        source: /for-brands
+        destination: /for-brands/index.html
+      - type: redirect
+        source: /geo-framework/
+        destination: /geo-framework
+      - type: rewrite
+        source: /geo-framework
+        destination: /geo-framework/index.html
+      - type: redirect
+        source: /ai-visibility-vs-seo/
+        destination: /ai-visibility-vs-seo
+      - type: rewrite
+        source: /ai-visibility-vs-seo
+        destination: /ai-visibility-vs-seo/index.html
+      - type: redirect
+        source: /pricing/
+        destination: /pricing
+      - type: rewrite
+        source: /pricing
+        destination: /pricing/index.html
+      - type: redirect
+        source: /about/
+        destination: /about
+      - type: rewrite
+        source: /about
+        destination: /about/index.html
+      - type: redirect
+        source: /editorial-policy/
+        destination: /editorial-policy
+      - type: rewrite
+        source: /editorial-policy
+        destination: /editorial-policy/index.html
+      - type: redirect
+        source: /contact/
+        destination: /contact
+      - type: rewrite
+        source: /contact
+        destination: /contact/index.html
+      - type: redirect
+        source: /articles/
+        destination: /articles
+      - type: rewrite
+        source: /articles
+        destination: /articles/index.html
+      - type: redirect
+        source: /solutions/
+        destination: /solutions
+      - type: rewrite
+        source: /solutions
+        destination: /solutions/index.html
+      - type: redirect
+        source: /articles/10-ai-seo-and-geo-experts-in-dubai-2026/
+        destination: /articles/10-ai-seo-and-geo-experts-in-dubai-2026
+      - type: rewrite
+        source: /articles/10-ai-seo-and-geo-experts-in-dubai-2026
+        destination: /articles/10-ai-seo-and-geo-experts-in-dubai-2026/index.html
+      - type: redirect
+        source: /articles/lopty-pascal/
+        destination: /articles/lopty-pascal
+      - type: rewrite
+        source: /articles/lopty-pascal
+        destination: /articles/lopty-pascal/index.html
+      - type: redirect
+        source: /articles/neha-jakhar/
+        destination: /articles/neha-jakhar
+      - type: rewrite
+        source: /articles/neha-jakhar
+        destination: /articles/neha-jakhar/index.html
+      - type: redirect
+        source: /articles/what-is-generative-engine-optimization/
+        destination: /articles/what-is-generative-engine-optimization
+      - type: rewrite
+        source: /articles/what-is-generative-engine-optimization
+        destination: /articles/what-is-generative-engine-optimization/index.html
+      - type: redirect
+        source: /articles/how-chatgpt-perplexity-select-brands/
+        destination: /articles/how-chatgpt-perplexity-select-brands
+      - type: rewrite
+        source: /articles/how-chatgpt-perplexity-select-brands
+        destination: /articles/how-chatgpt-perplexity-select-brands/index.html
+      - type: redirect
+        source: /articles/zero-click-search-transition/
+        destination: /articles/zero-click-search-transition
+      - type: rewrite
+        source: /articles/zero-click-search-transition
+        destination: /articles/zero-click-search-transition/index.html
+      - type: redirect
+        source: /articles/entity-drift-and-knowledge-graphs/
+        destination: /articles/entity-drift-and-knowledge-graphs
+      - type: rewrite
+        source: /articles/entity-drift-and-knowledge-graphs
+        destination: /articles/entity-drift-and-knowledge-graphs/index.html
+      - type: redirect
+        source: /articles/brand-verification-for-ai/
+        destination: /articles/brand-verification-for-ai
+      - type: rewrite
+        source: /articles/brand-verification-for-ai
+        destination: /articles/brand-verification-for-ai/index.html
+      - type: redirect
+        source: /articles/converting-ai-search-referrals/
+        destination: /articles/converting-ai-search-referrals
+      - type: rewrite
+        source: /articles/converting-ai-search-referrals
+        destination: /articles/converting-ai-search-referrals/index.html
+      - type: redirect
+        source: /articles/agency-playbook-ai-visibility/
+        destination: /articles/agency-playbook-ai-visibility
+      - type: rewrite
+        source: /articles/agency-playbook-ai-visibility
+        destination: /articles/agency-playbook-ai-visibility/index.html
+      - type: redirect
+        source: /articles/schema-markup-for-ai-crawlers/
+        destination: /articles/schema-markup-for-ai-crawlers
+      - type: rewrite
+        source: /articles/schema-markup-for-ai-crawlers
+        destination: /articles/schema-markup-for-ai-crawlers/index.html
+      - type: redirect
+        source: /articles/citation-velocity-and-trust-signals/
+        destination: /articles/citation-velocity-and-trust-signals
+      - type: rewrite
+        source: /articles/citation-velocity-and-trust-signals
+        destination: /articles/citation-velocity-and-trust-signals/index.html
+      - type: redirect
+        source: /articles/measuring-share-of-model/
+        destination: /articles/measuring-share-of-model
+      - type: rewrite
+        source: /articles/measuring-share-of-model
+        destination: /articles/measuring-share-of-model/index.html
+      - type: redirect
+        source: /articles/fixing-negative-ai-hallucinations/
+        destination: /articles/fixing-negative-ai-hallucinations
+      - type: rewrite
+        source: /articles/fixing-negative-ai-hallucinations
+        destination: /articles/fixing-negative-ai-hallucinations/index.html
+      - type: redirect
+        source: /articles/google-gemini-vs-perplexity-retrieval/
+        destination: /articles/google-gemini-vs-perplexity-retrieval
+      - type: rewrite
+        source: /articles/google-gemini-vs-perplexity-retrieval
+        destination: /articles/google-gemini-vs-perplexity-retrieval/index.html
+      - type: redirect
+        source: /articles/digital-pr-and-unlinked-citations/
+        destination: /articles/digital-pr-and-unlinked-citations
+      - type: rewrite
+        source: /articles/digital-pr-and-unlinked-citations
+        destination: /articles/digital-pr-and-unlinked-citations/index.html
+      - type: redirect
+        source: /articles/multi-region-geo-strategies/
+        destination: /articles/multi-region-geo-strategies
+      - type: rewrite
+        source: /articles/multi-region-geo-strategies
+        destination: /articles/multi-region-geo-strategies/index.html
+      - type: redirect
+        source: /articles/b2b-saas-discovery-in-chatgpt/
+        destination: /articles/b2b-saas-discovery-in-chatgpt
+      - type: rewrite
+        source: /articles/b2b-saas-discovery-in-chatgpt
+        destination: /articles/b2b-saas-discovery-in-chatgpt/index.html
+      - type: redirect
+        source: /articles/ecommerce-and-product-llm-recommendations/
+        destination: /articles/ecommerce-and-product-llm-recommendations
+      - type: rewrite
+        source: /articles/ecommerce-and-product-llm-recommendations
+        destination: /articles/ecommerce-and-product-llm-recommendations/index.html
+      - type: redirect
+        source: /articles/healthcare-ymyl-in-generative-search/
+        destination: /articles/healthcare-ymyl-in-generative-search
+      - type: rewrite
+        source: /articles/healthcare-ymyl-in-generative-search
+        destination: /articles/healthcare-ymyl-in-generative-search/index.html
+      - type: redirect
+        source: /articles/future-of-ai-search-2026/
+        destination: /articles/future-of-ai-search-2026
+      - type: rewrite
+        source: /articles/future-of-ai-search-2026
+        destination: /articles/future-of-ai-search-2026/index.html
+      - type: redirect
+        source: /geo/uae/real-estate-agency/
+        destination: /geo/uae/real-estate-agency
+      - type: rewrite
+        source: /geo/uae/real-estate-agency
+        destination: /geo/uae/real-estate-agency/index.html
+      - type: redirect
+        source: /geo/uae/healthcare-clinics/
+        destination: /geo/uae/healthcare-clinics
+      - type: rewrite
+        source: /geo/uae/healthcare-clinics
+        destination: /geo/uae/healthcare-clinics/index.html
+      - type: redirect
+        source: /geo/uae/legal-law-firms/
+        destination: /geo/uae/legal-law-firms
+      - type: rewrite
+        source: /geo/uae/legal-law-firms
+        destination: /geo/uae/legal-law-firms/index.html
+      - type: redirect
+        source: /geo/uae/financial-wealth-management/
+        destination: /geo/uae/financial-wealth-management
+      - type: rewrite
+        source: /geo/uae/financial-wealth-management
+        destination: /geo/uae/financial-wealth-management/index.html
+      - type: redirect
+        source: /geo/uae/b2b-saas-tech/
+        destination: /geo/uae/b2b-saas-tech
+      - type: rewrite
+        source: /geo/uae/b2b-saas-tech
+        destination: /geo/uae/b2b-saas-tech/index.html
+      - type: redirect
+        source: /geo/uae/luxury-hospitality/
+        destination: /geo/uae/luxury-hospitality
+      - type: rewrite
+        source: /geo/uae/luxury-hospitality
+        destination: /geo/uae/luxury-hospitality/index.html
+      - type: redirect
+        source: /geo/usa/real-estate-agency/
+        destination: /geo/usa/real-estate-agency
+      - type: rewrite
+        source: /geo/usa/real-estate-agency
+        destination: /geo/usa/real-estate-agency/index.html
+      - type: redirect
+        source: /geo/usa/healthcare-clinics/
+        destination: /geo/usa/healthcare-clinics
+      - type: rewrite
+        source: /geo/usa/healthcare-clinics
+        destination: /geo/usa/healthcare-clinics/index.html
+      - type: redirect
+        source: /geo/usa/legal-law-firms/
+        destination: /geo/usa/legal-law-firms
+      - type: rewrite
+        source: /geo/usa/legal-law-firms
+        destination: /geo/usa/legal-law-firms/index.html
+      - type: redirect
+        source: /geo/usa/financial-wealth-management/
+        destination: /geo/usa/financial-wealth-management
+      - type: rewrite
+        source: /geo/usa/financial-wealth-management
+        destination: /geo/usa/financial-wealth-management/index.html
+      - type: redirect
+        source: /geo/usa/b2b-saas-tech/
+        destination: /geo/usa/b2b-saas-tech
+      - type: rewrite
+        source: /geo/usa/b2b-saas-tech
+        destination: /geo/usa/b2b-saas-tech/index.html
+      - type: redirect
+        source: /geo/usa/luxury-hospitality/
+        destination: /geo/usa/luxury-hospitality
+      - type: rewrite
+        source: /geo/usa/luxury-hospitality
+        destination: /geo/usa/luxury-hospitality/index.html
+      - type: redirect
+        source: /geo/uk/real-estate-agency/
+        destination: /geo/uk/real-estate-agency
+      - type: rewrite
+        source: /geo/uk/real-estate-agency
+        destination: /geo/uk/real-estate-agency/index.html
+      - type: redirect
+        source: /geo/uk/healthcare-clinics/
+        destination: /geo/uk/healthcare-clinics
+      - type: rewrite
+        source: /geo/uk/healthcare-clinics
+        destination: /geo/uk/healthcare-clinics/index.html
+      - type: redirect
+        source: /geo/uk/legal-law-firms/
+        destination: /geo/uk/legal-law-firms
+      - type: rewrite
+        source: /geo/uk/legal-law-firms
+        destination: /geo/uk/legal-law-firms/index.html
+      - type: redirect
+        source: /geo/uk/financial-wealth-management/
+        destination: /geo/uk/financial-wealth-management
+      - type: rewrite
+        source: /geo/uk/financial-wealth-management
+        destination: /geo/uk/financial-wealth-management/index.html
+      - type: redirect
+        source: /geo/uk/b2b-saas-tech/
+        destination: /geo/uk/b2b-saas-tech
+      - type: rewrite
+        source: /geo/uk/b2b-saas-tech
+        destination: /geo/uk/b2b-saas-tech/index.html
+      - type: redirect
+        source: /geo/uk/luxury-hospitality/
+        destination: /geo/uk/luxury-hospitality
+      - type: rewrite
+        source: /geo/uk/luxury-hospitality
+        destination: /geo/uk/luxury-hospitality/index.html
+      - type: redirect
+        source: /geo/canada/real-estate-agency/
+        destination: /geo/canada/real-estate-agency
+      - type: rewrite
+        source: /geo/canada/real-estate-agency
+        destination: /geo/canada/real-estate-agency/index.html
+      - type: redirect
+        source: /geo/canada/healthcare-clinics/
+        destination: /geo/canada/healthcare-clinics
+      - type: rewrite
+        source: /geo/canada/healthcare-clinics
+        destination: /geo/canada/healthcare-clinics/index.html
+      - type: redirect
+        source: /geo/canada/legal-law-firms/
+        destination: /geo/canada/legal-law-firms
+      - type: rewrite
+        source: /geo/canada/legal-law-firms
+        destination: /geo/canada/legal-law-firms/index.html
+      - type: redirect
+        source: /geo/canada/financial-wealth-management/
+        destination: /geo/canada/financial-wealth-management
+      - type: rewrite
+        source: /geo/canada/financial-wealth-management
+        destination: /geo/canada/financial-wealth-management/index.html
+      - type: redirect
+        source: /geo/canada/b2b-saas-tech/
+        destination: /geo/canada/b2b-saas-tech
+      - type: rewrite
+        source: /geo/canada/b2b-saas-tech
+        destination: /geo/canada/b2b-saas-tech/index.html
+      - type: redirect
+        source: /geo/canada/luxury-hospitality/
+        destination: /geo/canada/luxury-hospitality
+      - type: rewrite
+        source: /geo/canada/luxury-hospitality
+        destination: /geo/canada/luxury-hospitality/index.html
+      - type: redirect
+        source: /geo/australia/real-estate-agency/
+        destination: /geo/australia/real-estate-agency
+      - type: rewrite
+        source: /geo/australia/real-estate-agency
+        destination: /geo/australia/real-estate-agency/index.html
+      - type: redirect
+        source: /geo/australia/healthcare-clinics/
+        destination: /geo/australia/healthcare-clinics
+      - type: rewrite
+        source: /geo/australia/healthcare-clinics
+        destination: /geo/australia/healthcare-clinics/index.html
+      - type: redirect
+        source: /geo/australia/legal-law-firms/
+        destination: /geo/australia/legal-law-firms
+      - type: rewrite
+        source: /geo/australia/legal-law-firms
+        destination: /geo/australia/legal-law-firms/index.html
+      - type: redirect
+        source: /geo/australia/financial-wealth-management/
+        destination: /geo/australia/financial-wealth-management
+      - type: rewrite
+        source: /geo/australia/financial-wealth-management
+        destination: /geo/australia/financial-wealth-management/index.html
+      - type: redirect
+        source: /geo/australia/b2b-saas-tech/
+        destination: /geo/australia/b2b-saas-tech
+      - type: rewrite
+        source: /geo/australia/b2b-saas-tech
+        destination: /geo/australia/b2b-saas-tech/index.html
+      - type: redirect
+        source: /geo/australia/luxury-hospitality/
+        destination: /geo/australia/luxury-hospitality
+      - type: rewrite
+        source: /geo/australia/luxury-hospitality
+        destination: /geo/australia/luxury-hospitality/index.html
+      - type: redirect
+        source: /geo/singapore/real-estate-agency/
+        destination: /geo/singapore/real-estate-agency
+      - type: rewrite
+        source: /geo/singapore/real-estate-agency
+        destination: /geo/singapore/real-estate-agency/index.html
+      - type: redirect
+        source: /geo/singapore/healthcare-clinics/
+        destination: /geo/singapore/healthcare-clinics
+      - type: rewrite
+        source: /geo/singapore/healthcare-clinics
+        destination: /geo/singapore/healthcare-clinics/index.html
+      - type: redirect
+        source: /geo/singapore/legal-law-firms/
+        destination: /geo/singapore/legal-law-firms
+      - type: rewrite
+        source: /geo/singapore/legal-law-firms
+        destination: /geo/singapore/legal-law-firms/index.html
+      - type: redirect
+        source: /geo/singapore/financial-wealth-management/
+        destination: /geo/singapore/financial-wealth-management
+      - type: rewrite
+        source: /geo/singapore/financial-wealth-management
+        destination: /geo/singapore/financial-wealth-management/index.html
+      - type: redirect
+        source: /geo/singapore/b2b-saas-tech/
+        destination: /geo/singapore/b2b-saas-tech
+      - type: rewrite
+        source: /geo/singapore/b2b-saas-tech
+        destination: /geo/singapore/b2b-saas-tech/index.html
+      - type: redirect
+        source: /geo/singapore/luxury-hospitality/
+        destination: /geo/singapore/luxury-hospitality
+      - type: rewrite
+        source: /geo/singapore/luxury-hospitality
+        destination: /geo/singapore/luxury-hospitality/index.html
+      - type: redirect
+        source: /geo/global/real-estate-agency/
+        destination: /geo/global/real-estate-agency
+      - type: rewrite
+        source: /geo/global/real-estate-agency
+        destination: /geo/global/real-estate-agency/index.html
+      - type: redirect
+        source: /geo/global/healthcare-clinics/
+        destination: /geo/global/healthcare-clinics
+      - type: rewrite
+        source: /geo/global/healthcare-clinics
+        destination: /geo/global/healthcare-clinics/index.html
+      - type: redirect
+        source: /geo/global/legal-law-firms/
+        destination: /geo/global/legal-law-firms
+      - type: rewrite
+        source: /geo/global/legal-law-firms
+        destination: /geo/global/legal-law-firms/index.html
+      - type: redirect
+        source: /geo/global/financial-wealth-management/
+        destination: /geo/global/financial-wealth-management
+      - type: rewrite
+        source: /geo/global/financial-wealth-management
+        destination: /geo/global/financial-wealth-management/index.html
+      - type: redirect
+        source: /geo/global/b2b-saas-tech/
+        destination: /geo/global/b2b-saas-tech
+      - type: rewrite
+        source: /geo/global/b2b-saas-tech
+        destination: /geo/global/b2b-saas-tech/index.html
+      - type: redirect
+        source: /geo/global/luxury-hospitality/
+        destination: /geo/global/luxury-hospitality
+      - type: rewrite
+        source: /geo/global/luxury-hospitality
+        destination: /geo/global/luxury-hospitality/index.html

@@ -1,195 +1,573 @@
-import React from "react";
-import { CitunaHero } from "../components/CitunaHero";
-import { CitunaHowItWorks } from "../components/CitunaHowItWorks";
-import { ClayWorkflowCanvas } from "../components/ClayWorkflowCanvas";
-import { ClayBentoBlocks } from "../components/ClayBentoBlocks";
-import { FoundersShowcase } from "../components/FoundersShowcase";
-import { ClayTestimonials } from "../components/ClayTestimonials";
-import { FaqSection } from "../components/FaqSection";
-import { COUNTRIES } from "../data/geoData";
-import { ArrowRight, ExternalLink, Globe2, Sparkles } from "lucide-react";
-
-interface LandingPageProps {
+import React, { useState } from "react";
+import { motion } from "motion/react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Globe,
+  Plus,
+  Search,
+} from "lucide-react";
+import { COUNTRIES, INDUSTRIES } from "../data/geoData";
+import { DashboardPreview, ENGINES } from "../components/DashboardPreview";
+const FAQS = [
+  [
+    "What does Prezlo actually do?",
+    "Prezlo measures how AI assistants describe and recommend your business, compares the results with competitors, and connects those findings to content, structured data, research and outreach.",
+  ],
+  [
+    "Is AI visibility different from SEO?",
+    "SEO helps people discover your website through search results. AI visibility looks at whether assistants mention, cite or recommend your business in their answers. The two share foundations, including useful content, clear business information and credible sources.",
+  ],
+  [
+    "Can I use it for multiple clients?",
+    "Yes. Prezlo supports multiple client profiles in one account, so agencies can manage measurement and execution across their client portfolio.",
+  ],
+  [
+    "Will Prezlo guarantee that AI recommends my brand?",
+    "No tool can guarantee a recommendation. Answers vary by assistant, prompt, location and time. Prezlo helps you measure those answers, identify gaps and improve the information available about your business.",
+  ],
+  [
+    "How do I get started?",
+    "Visit prezlo.io to create your account. New accounts start with a 14-day Pro trial. A card is required, and you can cancel before the trial ends to avoid a charge.",
+  ],
+];
+const reveal = {
+  initial: false as const,
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.12 },
+  transition: { duration: 0.6 },
+};
+export const LandingPage = ({
+  onNavigate,
+}: {
   onNavigate: (path: string) => void;
-}
-
-export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
-  const handleNav = (path: string, e: React.MouseEvent) => {
+}) => {
+  const [audience, setAudience] = useState("agencies");
+  const [country, setCountry] = useState("uae");
+  const [industry, setIndustry] = useState("real-estate-agency");
+  const local = (path: string) => (e: React.MouseEvent) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     onNavigate(path);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
   };
-
-  const landingFaqs = [
-    {
-      question: "What is Prezlo and how does it help agencies and brands?",
-      answer: "Prezlo is an identity infrastructure and AI visibility platform that tracks how 7 frontier AI engines (ChatGPT, Perplexity, Gemini, Claude, Grok, Google AI Overviews, and AI Mode) answer buyer questions, identifies citation gaps, and deploys fixes to establish your brand as the #1 recommended answer."
-    },
-    {
-      question: "Why is traditional SEO no longer enough in 2026?",
-      answer: "Over 38 percent of high-intent commercial investigation queries now occur inside conversational AI interfaces rather than on traditional search engine results pages. Traditional SEO focuses on keyword stuffing and backlinks, which neural rerankers ignore in favor of cross-source consensus, structured entity graphs, and verified third-party citations."
-    },
-    {
-      question: "Who are Lopty Pascal and Neha Jakhar?",
-      answer: "Lopty Pascal (https://loptypascal.com/) is the technical co-founder and Head of Engineering and Infrastructure at Prezlo, with his office at 25hours hotel, World Trade Centre (Floor 1, Dubai Founders HQ). He is an AI SEO and GEO pioneer who began research in 2022 and built Prezlo's architecture. Neha Jakhar (http://nehajakhar.com/) is co-founder and Head of Market Growth, leading enterprise expansion and agency enablement."
-    },
-    {
-      question: "Can marketing agencies white-label Prezlo for their clients?",
-      answer: "Yes. Prezlo offers a dedicated agency partner tier that enables digital marketing agencies to generate branded AI Visibility Audits, package monthly GEO retainers between 2,500 and 8,000 dollars, and monitor multi-client portfolios under their own brand."
-    },
-    {
-      question: "How do I sign up and start using Prezlo?",
-      answer: "You can start your free trial and run your initial comprehensive brand audit across all 7 AI engines immediately by visiting http://prezlo.io/."
-    }
-  ];
-
   return (
-    <div className="bg-white text-slate-900 selection:bg-[#FF5500] selection:text-white">
-      {/* Cituna-Style Signature Hero with Domain Diagnostic & 7 Engines */}
-      <CitunaHero onNavigate={onNavigate} />
-
-      {/* Cituna-Style How It Works (Track, Diagnose, Deploy Fixes) */}
-      <CitunaHowItWorks onNavigate={onNavigate} />
-
-      {/* Multi-Model Citation Pipeline Table (Real Client Proof) */}
-      <section className="py-20 bg-slate-50/70 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ClayWorkflowCanvas />
-        </div>
-      </section>
-
-      {/* 4 Feature Bento Blocks in Orange on White Theme */}
-      <section className="py-24 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-xs font-mono font-bold text-orange-600 mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>COMPLETE DISCOVERY STACK</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">
-              Everything you need to lead in AI recommendations
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 mt-2 font-normal">
-              Modular components designed by Lopty Pascal to engineer machine consensus across all frontier LLMs.
+    <div className="landing">
+      <section className="hero-section">
+        <div className="hero-orbit orbit-one" />
+        <div className="hero-orbit orbit-two" />
+        <div className="hero-content section-shell">
+          <motion.div {...reveal}>
+            <span className="eyebrow hero-eyebrow">
+              <span className="status-dot" /> MEET YOUR NEXT GROWTH CHANNEL
+            </span>
+            <h1>
+              Your next customer
+              <br />
+              is asking AI.
+              <br />
+              <span>Will it mention you?</span>
+            </h1>
+            <p className="hero-description">
+              See where your brand stands in AI search.
+              <br className="desktop-break" /> Understand what’s missing. Make
+              your next move with Prezlo.
             </p>
-          </div>
-
-          <ClayBentoBlocks onNavigate={onNavigate} />
-        </div>
-      </section>
-
-      {/* Leadership Showcase: Lopty Pascal & Neha Jakhar */}
-      <FoundersShowcase onNavigate={onNavigate} />
-
-      {/* Client Impact and Proof */}
-      <section className="py-24 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ClayTestimonials onNavigate={onNavigate} />
-        </div>
-      </section>
-
-      {/* 36 Localized Segment Explorer (6 Countries & 6 Industries) */}
-      <section className="py-20 bg-slate-50/70 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-xs font-mono font-bold text-orange-600 mb-2">
-                <Globe2 className="w-3.5 h-3.5" />
-                <span>LOCALIZED SEO & GEO STRATEGIES</span>
-              </div>
-              <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-                Targeting 6 High-Value Global Regions & 6 Key Verticals
-              </h2>
-              <p className="mt-2 text-sm text-slate-600 max-w-2xl">
-                Explore tailored generative optimization strategies designed for regional regulatory frameworks (RERA, DHA, DIFC, FCA, SEC, ADGM, MAS) and localized buyer queries.
-              </p>
+            <div className="hero-actions">
+              <a className="button-primary" href="https://prezlo.io/">
+                Start your free trial <ArrowUpRight size={17} />
+              </a>
+              <a className="button-secondary" href="#product-preview">
+                Take a look inside <ArrowRight size={17} />
+              </a>
             </div>
-            <a
-              href="/solutions"
-              onClick={(e) => handleNav("/solutions", e)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 hover:text-orange-700 underline shrink-0"
-            >
-              <span>Explore All 36 Local Segments</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {COUNTRIES.map((country) => (
-              <div
-                key={country.id}
-                className="p-5 rounded-2xl border border-slate-200 bg-white hover:border-orange-300 hover:shadow-md transition-all flex flex-col justify-between card-futuristic"
-              >
-                <div>
-                  <div className="text-2xl mb-2">{country.flag}</div>
-                  <h3 className="font-bold text-slate-900 text-sm">{country.name}</h3>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-1 font-mono">{country.majorHubs[0]}</p>
-                </div>
-                <div className="mt-4 pt-3 border-t border-slate-100">
-                  <a
-                    href={`/geo/${country.id}/real-estate-agency`}
-                    onClick={(e) => handleNav(`/geo/${country.id}/real-estate-agency`, e)}
-                    className="text-xs font-bold text-orange-600 hover:underline block"
+            <p className="trial-note">
+              14 days of Pro. Cancel anytime. Card required.
+            </p>
+          </motion.div>
+          <div className="engine-strip">
+            <span>
+              One clear view.
+              <br />
+              <strong>Seven AI assistants.</strong>
+            </span>
+            <div>
+              {ENGINES.map((name, i) => (
+                <span className="engine-name" key={name}>
+                  <span
+                    className={`engine-symbol engine-${i}`}
+                    aria-hidden="true"
                   >
-                    View Real Estate GEO
-                  </a>
+                    {["◎", "⌘", "✦", "✳", "𝕏", "≈", "∞"][i]}
+                  </span>
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
+          <motion.div {...reveal} className="dashboard-stage">
+            <div className="dashboard-label">
+              <span>
+                <span className="status-dot" /> THE BIG PICTURE, FINALLY IN ONE
+                PLACE
+              </span>
+              <span>Interactive product preview ↓</span>
+            </div>
+            <DashboardPreview />
+          </motion.div>
+        </div>
+      </section>
+      <section className="brand-section section-shell">
+        <p>Helping ambitious businesses find their place in AI search</p>
+        <div className="customer-wordmarks">
+          <span>
+            QInsights<span className="brand-light">.ai</span>
+          </span>
+          <span className="brand-serif">Valeo Health</span>
+          <span>
+            NXTSTAR<span className="brand-orange">↗</span>
+          </span>
+          <span className="brand-thin">Algebrik</span>
+          <span className="brand-serif">Interlace</span>
+          <span className="brand-thin">
+            BNW <small>DEVELOPMENTS</small>
+          </span>
+        </div>
+      </section>
+      <section className="workflow-section section-shell">
+        <motion.div {...reveal} className="section-heading">
+          <div>
+            <span className="eyebrow">FROM INSIGHT TO ACTION</span>
+            <h2>
+              Don’t just watch AI search.
+              <br />
+              <span>Do something about it.</span>
+            </h2>
+          </div>
+          <p>
+            A score is a starting point. Prezlo connects the answers, the
+            evidence and the work that comes next.
+          </p>
+        </motion.div>
+        <div className="workflow-grid">
+          {[
+            [
+              "01",
+              "See the whole picture.",
+              "Track your brand, competitors and cited sources across seven AI assistants. Understand what buyers are actually being told.",
+              "Track AI visibility",
+              "/platform",
+            ],
+            [
+              "02",
+              "Find your missing signals.",
+              "Connect each answer to the information behind it. See where your content, profiles and authority need attention.",
+              "Understand the gaps",
+              "/geo-framework",
+            ],
+            [
+              "03",
+              "Make your next move.",
+              "Turn research into content, structured data and outreach, with approvals that keep your team in control.",
+              "Explore the platform",
+              "/platform",
+            ],
+          ].map(([n, title, copy, label, path], i) => (
+            <motion.article
+              {...reveal}
+              transition={{ duration: 0.6, delay: i * 0.09 }}
+              className="workflow-step"
+              key={n}
+            >
+              <div className={`step-art step-art-${i}`} aria-hidden="true">
+                {i === 0 ? (
+                  <div className="signal-stack">
+                    {["ChatGPT", "Perplexity", "Gemini"].map((v, j) => (
+                      <div key={v}>
+                        <span className="tiny-engine">
+                          {["◎", "⌘", "✦"][j]}
+                        </span>
+                        {v}
+                        <span className="signal-line" />
+                        <Check size={13} />
+                      </div>
+                    ))}
+                  </div>
+                ) : i === 1 ? (
+                  <div className="source-note">
+                    <span>
+                      <Search size={13} /> A clearer picture
+                    </span>
+                    <strong>
+                      Your brand is missing
+                      <br />
+                      from comparison sources.
+                    </strong>
+                    <div>
+                      <i />
+                      <i />
+                      <i />
+                    </div>
+                    <small>
+                      Opportunity identified <span>↗</span>
+                    </small>
+                  </div>
+                ) : (
+                  <div className="task-stack">
+                    <div>
+                      <span className="task-check">
+                        <Check size={11} />
+                      </span>
+                      Refresh your brand profile
+                    </div>
+                    <div>
+                      <span className="task-check">
+                        <Check size={11} />
+                      </span>
+                      Structure your website data
+                    </div>
+                    <div>
+                      <span className="task-empty" />
+                      Review your next article
+                    </div>
+                    <span className="review-note">
+                      Ready for your review <ArrowRight size={12} />
+                    </span>
+                  </div>
+                )}
+              </div>
+              <span className="step-number">{n} /</span>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+              <a className="text-link" href={path} onClick={local(path)}>
+                {label} <ArrowUpRight size={15} />
+              </a>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+      <section className="audience-section">
+        <div className="section-shell audience-layout">
+          <motion.div {...reveal}>
+            <span className="eyebrow">
+              BUILT FOR THE PEOPLE BEHIND THE BRAND
+            </span>
+            <h2>
+              Your ambition.
+              <br />
+              <span>A clearer way forward.</span>
+            </h2>
+            <div
+              className="audience-tabs"
+              role="tablist"
+              aria-label="Choose your team"
+            >
+              <button
+                id="agency-tab"
+                role="tab"
+                aria-controls="audience-panel"
+                aria-selected={audience === "agencies"}
+                onClick={() => setAudience("agencies")}
+              >
+                For agencies
+              </button>
+              <button
+                id="brand-tab"
+                role="tab"
+                aria-controls="audience-panel"
+                aria-selected={audience === "brands"}
+                onClick={() => setAudience("brands")}
+              >
+                For brands
+              </button>
+            </div>
+            <div
+              id="audience-panel"
+              role="tabpanel"
+              aria-labelledby={
+                audience === "agencies" ? "agency-tab" : "brand-tab"
+              }
+            >
+              <h3>
+                {audience === "agencies"
+                  ? "More clarity for every client."
+                  : "Know how your brand is being described."}
+              </h3>
+              <p>
+                {audience === "agencies"
+                  ? "Bring AI visibility into your client work. Manage multiple profiles, compare the competition and turn findings into a practical plan."
+                  : "Understand the answers your customers see, the competitors they hear about and the sources shaping your reputation."}
+              </p>
+              <ul>
+                {(audience === "agencies"
+                  ? [
+                      "One workspace for multiple client profiles",
+                      "Research and execution in one workflow",
+                      "Clear next steps your team can act on",
+                    ]
+                  : [
+                      "Track mentions and recommendations",
+                      "Benchmark against your competitors",
+                      "Improve the signals behind AI answers",
+                    ]
+                ).map((s) => (
+                  <li key={s}>
+                    <Check size={15} />
+                    {s}
+                  </li>
+                ))}
+              </ul>
+              <a
+                className="text-link"
+                href={audience === "agencies" ? "/for-agencies" : "/for-brands"}
+                onClick={local(
+                  audience === "agencies" ? "/for-agencies" : "/for-brands",
+                )}
+              >
+                Explore Prezlo for {audience} <ArrowUpRight size={16} />
+              </a>
+            </div>
+          </motion.div>
+          <motion.div {...reveal} className="portfolio-art">
+            <div className="portfolio-header">
+              <span>
+                {audience === "agencies"
+                  ? "Your client portfolio"
+                  : "Your brand workspace"}
+              </span>
+              <span className="portfolio-count">
+                {audience === "agencies" ? "3 profiles" : "1 profile"}
+              </span>
+            </div>
+            {(audience === "agencies"
+              ? ["Acme Studio", "Forma Living", "North & Co."]
+              : ["Your brand"]
+            ).map((s, i) => (
+              <div className="portfolio-row" key={s}>
+                <span className={`portfolio-avatar portfolio-avatar-${i}`}>
+                  {s[0]}
+                </span>
+                <div>
+                  <strong>{s}</strong>
+                  <small>
+                    {
+                      [
+                        "Brand & design",
+                        "Real estate",
+                        "Professional services",
+                      ][i]
+                    }
+                  </small>
                 </div>
+                <div className="mini-bars">
+                  {[9, 15, 12, 21, 19, 28, 26, 34].map((h, j) => (
+                    <i key={j} style={{ height: h + i * 2 }} />
+                  ))}
+                </div>
+                <span className="portfolio-percent">
+                  {[68, 74, 52][i]}%<small>visibility</small>
+                </span>
               </div>
             ))}
-          </div>
+            <div className="portfolio-bottom">
+              <span className="status-dot" /> More context. Better
+              conversations.<span>Illustrative data</span>
+            </div>
+          </motion.div>
         </div>
       </section>
-
-      {/* FAQs Section */}
-      <FaqSection
-        title="Frequently Asked Questions About Prezlo"
-        subtitle="Clear, direct answers for agencies and brands ready to dominate AI recommendations."
-        faqs={landingFaqs}
-      />
-
-      {/* Cituna-Style Final High-Impact Conversion Banner */}
-      <section className="py-24 bg-white text-center border-t border-slate-200 relative overflow-hidden futuristic-grid">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-80 orange-glow-halo pointer-events-none"></div>
-
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-xs font-mono font-bold text-orange-600 mb-4">
-            <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-pulse"></span>
-            <span>Turn AI Search Into Growth</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-            Ready to track what 7 AI engines tell buyers about you?
+      <section className="markets-section section-shell">
+        <div>
+          <span className="eyebrow">LOCAL CONTEXT. GLOBAL AMBITION.</span>
+          <h2>
+            Different markets.
+            <br />
+            <span>The same need to be found.</span>
           </h2>
-
-          <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto">
-            Run an instant multi-model audit and see which AI engines cite your brand, where competitors are recommended, and what fixes to deploy.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="http://prezlo.io/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-prezlo-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-bold rounded-xl shadow-lg shadow-orange-500/25"
-            >
-              <span>Start Free Trial on Prezlo.io</span>
-              <ExternalLink className="w-4 h-4" />
-            </a>
-
-            <a
-              href="http://prezlo.io/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 text-sm font-bold text-slate-800 bg-white border border-slate-200 rounded-xl hover:border-orange-300 hover:text-orange-600 transition-all shadow-xs"
-            >
-              <span>Book Strategy Walkthrough</span>
-            </a>
-          </div>
-
-          <p className="mt-4 text-xs text-slate-400 font-mono">
-            Directly provisioned via http://prezlo.io/
+          <p>
+            Explore AI visibility strategies for your industry and the places
+            you do business.
           </p>
         </div>
+        <div className="market-selector">
+          <Globe size={23} />
+          <label htmlFor="market-country">Your market</label>
+          <select
+            id="market-country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+          >
+            {COUNTRIES.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+          <label htmlFor="market-industry">Your industry</label>
+          <select
+            id="market-industry"
+            value={industry}
+            onChange={(e) => setIndustry(e.target.value)}
+          >
+            {INDUSTRIES.map((i) => (
+              <option key={i.id} value={i.id}>
+                {i.shortName}
+              </option>
+            ))}
+          </select>
+          <a
+            className="button-primary"
+            href={`/geo/${country}/${industry}`}
+            onClick={local(`/geo/${country}/${industry}`)}
+          >
+            Explore your market <ArrowUpRight size={16} />
+          </a>
+          <a
+            className="all-solutions"
+            href="/solutions"
+            onClick={local("/solutions")}
+          >
+            Browse all markets and industries <ArrowRight size={13} />
+          </a>
+        </div>
+      </section>
+      <section className="home-guides section-shell">
+        <span className="eyebrow">LEARN BEFORE YOU DECIDE</span>
+        <h2>
+          Clear thinking.
+          <br />
+          <span>Practical next steps.</span>
+        </h2>
+        <div>
+          {[
+            [
+              "What is GEO?",
+              "Understand the work behind AI visibility and where to begin.",
+              "what-is-generative-engine-optimization",
+            ],
+            [
+              "Measure what matters",
+              "A worked example of mention rates, sample sizes and reporting.",
+              "measuring-share-of-model",
+            ],
+            [
+              "Build a useful agency service",
+              "Turn a baseline into deliverables a client can inspect.",
+              "agency-playbook-ai-visibility",
+            ],
+          ].map(([title, description, slug]) => (
+            <a
+              key={slug}
+              href={"/articles/" + slug}
+              onClick={local("/articles/" + slug)}
+            >
+              <h3>
+                {title} <ArrowUpRight size={17} />
+              </h3>
+              <p>{description}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+      <section className="founder-section section-shell">
+        <div className="founder-intro">
+          <span className="eyebrow">THE PEOPLE BEHIND PREZLO</span>
+          <h2>
+            Built with intent.
+            <br />
+            <span>By people who do the work.</span>
+          </h2>
+          <p>
+            Engineering and market experience, working together to make AI
+            visibility practical.
+          </p>
+        </div>
+        <a
+          href="https://loptypascal.com/"
+          className="founder-card"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/assets/aistudio/lopty-pascal_8b18be27.webp"
+            alt="Lopty Pascal"
+            loading="lazy"
+          />
+          <div>
+            <h3>
+              Lopty Pascal <ArrowUpRight size={17} />
+            </h3>
+            <p>
+              Technical co-founder
+              <br />
+              Head of Engineering & Infrastructure
+            </p>
+          </div>
+        </a>
+        <a
+          href="http://nehajakhar.com/"
+          className="founder-card"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/assets/neha-jakhar.png" alt="Neha Jakhar" loading="lazy" />
+          <div>
+            <h3>
+              Neha Jakhar <ArrowUpRight size={17} />
+            </h3>
+            <p>
+              Co-founder
+              <br />
+              Head of Market Growth
+            </p>
+          </div>
+        </a>
+      </section>
+      <section className="faq-section section-shell">
+        <div>
+          <span className="eyebrow">A FEW THINGS YOU MIGHT BE ASKING</span>
+          <h2>
+            Good questions.
+            <br />
+            <span>Straight answers.</span>
+          </h2>
+          <a className="text-link" href="https://prezlo.io/">
+            Learn more about Prezlo <ArrowUpRight size={15} />
+          </a>
+        </div>
+        <div className="faq-list">
+          {FAQS.map(([q, a]) => (
+            <details key={q}>
+              <summary>
+                {q}
+                <Plus size={17} />
+              </summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+      <section className="closing-section">
+        <div className="section-shell">
+          <span className="eyebrow">YOUR NEXT CHAPTER IN SEARCH</span>
+          <h2>
+            Be part of
+            <br />
+            <span>the conversation.</span>
+          </h2>
+          <p>
+            Find out how AI sees your brand.
+            <br />
+            Then give it a better story to tell.
+          </p>
+          <a className="button-primary" href="https://prezlo.io/">
+            Start your free trial <ArrowUpRight size={17} />
+          </a>
+          <small>14-day Pro trial. Card required. Cancel anytime.</small>
+        </div>
+        <span className="closing-loop loop-a" />
+        <span className="closing-loop loop-b" />
       </section>
     </div>
   );

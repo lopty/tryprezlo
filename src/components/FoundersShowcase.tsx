@@ -97,7 +97,7 @@ export const FoundersShowcase: React.FC<FoundersShowcaseProps> = ({ onNavigate }
             <div>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-6">
                 <img
-                  src="/public/assets/aistudio/neha-hero_c0c1e4d9.jpg"
+                  src="/assets/neha-jakhar.png"
                   alt="Neha Jakhar, Co-Founder of Prezlo"
                   className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-2 border-[#FF5500] shadow-md"
                   referrerPolicy="no-referrer"
